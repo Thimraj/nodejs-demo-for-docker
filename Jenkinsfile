@@ -1,5 +1,5 @@
 pipeline {
-    agent {label "Node1dev"}            # To run on Perticuler Node. So,give {Lable "NodeName"}, otherwise give Agent any.
+    agent {label "Node2qa"}             # To run our Application on Perticuler Node.
     environment {
     DOCKERHUB_CREDENTIALS = credentials('valaxy-dockerhub')
     }
@@ -27,7 +27,9 @@ pipeline {
         }
         stage("Create Container") {
             steps{
-                sh 'docker run -itd --name mynodeappcont1 -p 3900:3000 dockerthimraj/nodeapp:${BUILD_NUMBER}'
+                sh 'docker stop mynodeappcont1'         # To build again and again to without fail
+                sh 'docker rm mynodeappcont1'           # To build again and again to without fail
+                sh 'docker run -itd --name mynodeappcont1 -p 3600:3000 dockerthimraj/nodeapp:${BUILD_NUMBER}'
             }
         }
 }
